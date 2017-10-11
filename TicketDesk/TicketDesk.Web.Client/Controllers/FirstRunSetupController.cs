@@ -171,9 +171,16 @@ namespace TicketDesk.Web.Client.Controllers
         {
             using (var ctx = new TdDomainContext(null))
             {
-                Database.SetInitializer(
-                    new MigrateDatabaseToLatestVersion<TdDomainContext, Configuration>(true));
-                ctx.Database.Initialize(true);
+                try
+                {
+                    Database.SetInitializer(
+                        new MigrateDatabaseToLatestVersion<TdDomainContext, Configuration>(true));
+                    ctx.Database.Initialize(true);
+                } catch(System.Exception ex)
+                {
+
+                    throw;
+                }
             }
 
 

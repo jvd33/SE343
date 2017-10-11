@@ -46,9 +46,9 @@ namespace TicketDesk.PushNotifications.Model
 
         public PushNotificationDestination Destination { get; set; }
         
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
-        public DateTimeOffset? ScheduledSendDate { get; set; }
+        public DateTime? ScheduledSendDate { get; set; }
 
         public PushNotificationItemStatus DeliveryStatus { get; set; }
 
@@ -56,7 +56,7 @@ namespace TicketDesk.PushNotifications.Model
 
         public string MessageContent { get; set; }
 
-        internal DateTimeOffset? GetSendDate(ApplicationPushNotificationSetting appSettings, SubscriberNotificationSetting userNoteSettings)
+        internal DateTime? GetSendDate(ApplicationPushNotificationSetting appSettings, SubscriberNotificationSetting userNoteSettings)
         {
             var send = ScheduledSendDate;//we'll leave this alone if consolidation isn't used
 

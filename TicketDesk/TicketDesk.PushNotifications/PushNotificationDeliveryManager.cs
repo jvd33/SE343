@@ -115,7 +115,7 @@ namespace TicketDesk.PushNotifications
                     await context.PushNotificationItems.Include(n => n.Destination).OrderBy(n => n.ScheduledSendDate).FirstOrDefaultAsync(
                         n =>
                             (n.DeliveryStatus == PushNotificationItemStatus.Scheduled || n.DeliveryStatus == PushNotificationItemStatus.Retrying) &&
-                            n.ScheduledSendDate <= DateTimeOffset.Now, ct);
+                            n.ScheduledSendDate <= DateTime.Now, ct);
 
                 if (readyNote == null)
                 {

@@ -22,7 +22,7 @@ namespace TicketDesk.Search.Common
         public string Title { get; set; }
         public string Details { get; set; }
         public string Status { get; set; }
-        public DateTimeOffset LastUpdateDate { get; set; }
+        public DateTime LastUpdateDate { get; set; }
         public string[] Tags { get; set; }
         public string[] Events { get; set; }
     }

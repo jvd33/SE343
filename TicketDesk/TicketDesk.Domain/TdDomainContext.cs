@@ -11,6 +11,7 @@
 // attribution must remain intact, and a copy of the license must be 
 // provided to the recipient.
 
+using MySql.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,6 +25,7 @@ using TicketDesk.Localization.Domain;
 
 namespace TicketDesk.Domain
 {
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public sealed class TdDomainContext : DbContext
     {
 

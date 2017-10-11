@@ -51,9 +51,9 @@ namespace TicketDesk.Domain.Model
 
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(Validation))]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTimeOffset EventDate { get; set; }
+        public DateTime EventDate { get; set; }
 
-        [Column(TypeName = "timestamp")]
+        [Column(TypeName = "binary")]
         [MaxLength(8)]
         [Timestamp]
         public byte[] Version { get; set; }

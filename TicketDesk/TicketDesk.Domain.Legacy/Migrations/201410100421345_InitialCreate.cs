@@ -29,22 +29,22 @@ namespace TicketDesk.Domain.Legacy.Migrations
 			Sql(@"
 				ALTER TABLE [dbo].[Tickets] DROP CONSTRAINT [DF_Tickets_CreatedDate];
 
-				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [CreatedDate] DATETIMEOFFSET (7) NOT NULL;
-				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [CurrentStatusDate] DATETIMEOFFSET (7) NOT NULL;
-				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [LastUpdateDate] DATETIMEOFFSET (7) NOT NULL;
+				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [CreatedDate] DateTime (7) NOT NULL;
+				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [CurrentStatusDate] DateTime (7) NOT NULL;
+				ALTER TABLE [dbo].[Tickets] ALTER COLUMN [LastUpdateDate] DateTime (7) NOT NULL;
 
 				ALTER TABLE [dbo].[Tickets] ADD CONSTRAINT [DF_Tickets_CreatedDate] DEFAULT (sysdatetimeoffset()) FOR [CreatedDate];
 
 				ALTER TABLE [dbo].[TicketComments] DROP CONSTRAINT [DF_TicketComments_CommentDate];
 
-				ALTER TABLE [dbo].[TicketComments] ALTER COLUMN [CommentedDate] DATETIMEOFFSET (7) NOT NULL;
+				ALTER TABLE [dbo].[TicketComments] ALTER COLUMN [CommentedDate] DateTime (7) NOT NULL;
 
 				ALTER TABLE [dbo].[TicketComments] ADD CONSTRAINT [DF_TicketComments_CommentDate] DEFAULT (sysdatetimeoffset()) FOR [CommentedDate];
-				ALTER TABLE [dbo].[TicketAttachments] ALTER COLUMN [UploadedDate] DATETIMEOFFSET (7) NOT NULL;
+				ALTER TABLE [dbo].[TicketAttachments] ALTER COLUMN [UploadedDate] DateTime (7) NOT NULL;
 
-				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [CreatedDate] DATETIMEOFFSET (7) NOT NULL;
-				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [LastDeliveryAttemptDate] DATETIMEOFFSET (7) NULL;
-				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [NextDeliveryAttemptDate] DATETIMEOFFSET (7) NULL;
+				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [CreatedDate] DateTime (7) NOT NULL;
+				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [LastDeliveryAttemptDate] DateTime (7) NULL;
+				ALTER TABLE [dbo].[TicketEventNotifications] ALTER COLUMN [NextDeliveryAttemptDate] DateTime (7) NULL;
 
 
 			");

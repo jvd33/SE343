@@ -200,14 +200,14 @@ namespace TicketDesk.Web.Client.Controllers
 
             if (currentlyDisabled != model.IsDisabled || currentlyLocked != model.IsLocked)
             {
-                DateTimeOffset newLockoutDate = DateTimeOffset.MinValue;
+                DateTime newLockoutDate = DateTime.MinValue;
                 if (model.IsDisabled)
                 {
-                    newLockoutDate = DateTimeOffset.MaxValue;
+                    newLockoutDate = DateTime.MaxValue;
                 }
                 else if (model.IsLocked)
                 {
-                    newLockoutDate = DateTimeOffset.Now.Add(UserManager.DefaultAccountLockoutTimeSpan);
+                    newLockoutDate = DateTime.Now.Add(UserManager.DefaultAccountLockoutTimeSpan);
                 }
 
                 var result = await UserManager.SetLockoutEndDateAsync(model.User.Id, newLockoutDate);

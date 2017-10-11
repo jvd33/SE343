@@ -80,7 +80,7 @@
                             @Html.Raw(string.Format(Index.OwnedBy, Model.GetOwnerInfo().DisplayName))
                         </div>
                         <div class="hidden-sm hidden-md hidden-lg">
-                            @Html.Raw(string.Format(Index.UpdatedBy, Model.GetLastUpdatedByInfo().DisplayName, Model.LastUpdateDate.DateTime.ToShortDateString(), Model.LastUpdateDate.DateTime.ToShortTimeString()))
+                            @Html.Raw(string.Format(Index.UpdatedBy, Model.GetLastUpdatedByInfo().DisplayName, Model.LastUpdateDate.ToShortDateString(), Model.LastUpdateDate.ToShortTimeString()))
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <div class="row">
                             @Html.LabelFor(m => m.LastUpdateDate, new {@class = "col-sm-5 col-lg-4 text-right"})
                             <div class="col-sm-7 col-lg-8">
-                                @Model.LastUpdateDate.DateTime.ToShortDateString() @Model.LastUpdateDate.DateTime.ToShortTimeString()
+                                @Model.LastUpdateDate.ToShortDateString() @Model.LastUpdateDate.ToShortTimeString()
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
                         <div class="row">
                             @Html.LabelFor(m => m.CurrentStatusDate, new {@class = "col-sm-5 col-lg-4 text-right"})
                             <div class="col-sm-7 col-lg-8">
-                                @Model.CurrentStatusDate.DateTime.ToShortDateString() @Model.CurrentStatusDate.DateTime.ToShortTimeString()
+                                @Model.CurrentStatusDate.ToShortDateString() @Model.CurrentStatusDate.ToShortTimeString()
                             </div>
                         </div>
                         <div class="row">
@@ -138,7 +138,7 @@
                         <div class="row">
                             @Html.LabelFor(m => m.CreatedDate, new {@class = "col-sm-5 col-lg-4 text-right"})
                             <div class="col-sm-7 col-lg-8">
-                                @Model.CreatedDate.DateTime.ToShortDateString() @Model.CreatedDate.DateTime.ToShortTimeString()
+                                @Model.CreatedDate.ToShortDateString() @Model.CreatedDate.ToShortTimeString()
                             </div>
                         </div>
 

@@ -30,50 +30,50 @@ namespace TicketDesk.Web.Client
         public static void RegisterDatabase()
         {
 
-            var setupEnabled = ConfigurationManager.AppSettings["ticketdesk:SetupEnabled"];
-            var firstRunEnabled = !string.IsNullOrEmpty(setupEnabled) &&
-                setupEnabled.Equals("true", StringComparison.InvariantCultureIgnoreCase);
+            //var setupEnabled = ConfigurationManager.AppSettings["ticketdesk:SetupEnabled"];
+            //var firstRunEnabled = !string.IsNullOrEmpty(setupEnabled) &&
+            //    setupEnabled.Equals("true", StringComparison.InvariantCultureIgnoreCase);
 
 
-            if (firstRunEnabled && !IsDatabaseReady)
-            {
-                //add a global filter to send requests to the database managment first run functions
-                GlobalFilters.Filters.Add(new DbSetupFilter());
-            }
-            else
-            {
+            //if (firstRunEnabled && !IsDatabaseReady)
+            //{
+            //    //add a global filter to send requests to the database managment first run functions
+            //    GlobalFilters.Filters.Add(new DbSetupFilter());
+            //}
+            //else
+            //{
 
 
-                //run any pending migrations automatically to bring the DB up to date
-                Database.SetInitializer(
-                    new MigrateDatabaseToLatestVersion<TdDomainContext, Configuration>(true));
-                using (var ctx = new TdDomainContext(null))
-                {
-                    try
-                    {
-                        ctx.Database.Initialize(!ctx.Database.CompatibleWithModel(true));
-                    }
-                    catch (Exception)//no metadata in DB, force run initializer anyway
-                    {
-                        ctx.Database.Initialize(true);
-                    }
-                    if (IsFirstRunDemoRefreshEnabled())
-                    {
-                        DemoDataManager.SetupDemoData(ctx);
+            //    //run any pending migrations automatically to bring the DB up to date
+            //    Database.SetInitializer(
+            //        new MigrateDatabaseToLatestVersion<TdDomainContext, Configuration>(true));
+            //    using (var ctx = new TdDomainContext(null))
+            //    {
+            //        try
+            //        {
+            //            ctx.Database.Initialize(!ctx.Database.CompatibleWithModel(true));
+            //        }
+            //        catch (Exception)//no metadata in DB, force run initializer anyway
+            //        {
+            //            ctx.Database.Initialize(true);
+            //        }
+            //        if (IsFirstRunDemoRefreshEnabled())
+            //        {
+            //            DemoDataManager.SetupDemoData(ctx);
 
-                        //TODO: duplicated in FirstRunSetup controller, should refactor extension method or something... just not sure what the most appropriate place is 
-                        HostingEnvironment.QueueBackgroundWorkItem(async (ct) =>
-                        {
-                            using (var dctx = new TdDomainContext(null))
-                            {
-                                await TdSearchContext.Current.IndexManager.RunIndexMaintenanceAsync();
-                                var searchItems = dctx.Tickets.Include("TicketEvents").ToSeachIndexItems();
-                                await TdSearchContext.Current.IndexManager.AddItemsToIndexAsync(searchItems);
-                            }
-                        });
-                    }
-                }
-            }
+            //            //TODO: duplicated in FirstRunSetup controller, should refactor extension method or something... just not sure what the most appropriate place is 
+            //            HostingEnvironment.QueueBackgroundWorkItem(async (ct) =>
+            //            {
+            //                using (var dctx = new TdDomainContext(null))
+            //                {
+            //                    await TdSearchContext.Current.IndexManager.RunIndexMaintenanceAsync();
+            //                    var searchItems = dctx.Tickets.Include("TicketEvents").ToSeachIndexItems();
+            //                    await TdSearchContext.Current.IndexManager.AddItemsToIndexAsync(searchItems);
+            //                }
+            //            });
+            //        }
+            //    }
+            //}
         }
 
 

@@ -33,7 +33,7 @@ namespace TicketDesk.PushNotifications.Model
         internal IEnumerable<TicketPushNotificationItem> ToPushNotificationItems(
             ApplicationPushNotificationSetting appSettings, SubscriberNotificationSetting userSettings)
         {
-            var now = DateTimeOffset.Now;
+            var now = DateTime.Now;
             return userSettings.PushNotificationDestinations.Select(dest =>
             new TicketPushNotificationItem()
                 {
@@ -58,9 +58,9 @@ namespace TicketDesk.PushNotifications.Model
         }
 
 
-        private static DateTimeOffset? GetSendDate(DateTimeOffset now, ApplicationPushNotificationSetting appSettings, SubscriberNotificationSetting userNoteSettings)
+        private static DateTime? GetSendDate(DateTime now, ApplicationPushNotificationSetting appSettings, SubscriberNotificationSetting userNoteSettings)
         {
-            DateTimeOffset? send = null;
+            DateTime? send = null;
             if (userNoteSettings.IsEnabled)
             {
                 var addMinutes = appSettings.AntiNoiseSettings.IsConsolidationEnabled

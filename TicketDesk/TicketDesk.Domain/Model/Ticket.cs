@@ -75,7 +75,7 @@ namespace TicketDesk.Domain.Model
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Display(ResourceType = typeof(Strings), Name = "TicketCreatedDate", ShortName = "TicketCreatedDateShort")]
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         private string _owner;
 
@@ -118,7 +118,7 @@ namespace TicketDesk.Domain.Model
         public TicketStatus TicketStatus { get; set; }
 
         [Display(ResourceType = typeof(Strings), Name = "TicketCurrentStatusDate", ShortName = "TicketCurrentStatusDateShort")]
-        public DateTimeOffset CurrentStatusDate { get; set; }
+        public DateTime CurrentStatusDate { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(Validation))]
         [StringLength(256, ErrorMessageResourceName = "FieldMaximumLength", ErrorMessageResourceType = typeof(Validation))]
@@ -131,7 +131,7 @@ namespace TicketDesk.Domain.Model
         public string LastUpdateBy { get; set; }
 
         [Display(ResourceType = typeof(Strings), Name = "TicketLastUpdateDate", ShortName = "TicketLastUpdateDateShort")]
-        public DateTimeOffset LastUpdateDate { get; set; }
+        public DateTime LastUpdateDate { get; set; }
 
         [StringLength(25, ErrorMessageResourceName = "FieldMaximumLength", ErrorMessageResourceType = typeof(Validation))]
         [Display(ResourceType = typeof(Strings), Name = "TicketPriority", ShortName = "TicketPriorityShort")]
@@ -140,7 +140,7 @@ namespace TicketDesk.Domain.Model
         [Display(ResourceType = typeof(Strings), Name = "TicketAffectsCustomer", ShortName = "TicketAffectsCustomerShort")]
         public bool AffectsCustomer { get; set; }
 
-        [Column(TypeName = "timestamp")]
+        [Column(TypeName = "binary")]
         [MaxLength(8)]
         [Timestamp]
         public byte[] Version { get; set; }

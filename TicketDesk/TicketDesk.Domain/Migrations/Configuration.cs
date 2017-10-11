@@ -25,6 +25,7 @@ namespace TicketDesk.Domain.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
             ContextKey = "TicketDeskCore";
         }
 

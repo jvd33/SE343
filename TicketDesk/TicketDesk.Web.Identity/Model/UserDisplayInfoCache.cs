@@ -45,7 +45,7 @@ namespace TicketDesk.Web.Identity.Model
 
             if (cacheCollection == null)
             {
-                var policy = new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(15d) };
+                var policy = new CacheItemPolicy { AbsoluteExpiration = DateTime.Now.AddMinutes(15d) };
 
                 cacheCollection = manager.Users.Select(u => new UserDisplayInfo
                 {

@@ -20,7 +20,7 @@ namespace TicketDesk.Domain.Model
         [Display(Name = "Project_Description", ResourceType = typeof(Strings))]
         public string ProjectDescription { get; set; }
 
-        [Column(TypeName = "timestamp")]
+        [Column(TypeName = "binary")]
         [MaxLength(8)]
         [Timestamp]
         public byte[] Version { get; set; }

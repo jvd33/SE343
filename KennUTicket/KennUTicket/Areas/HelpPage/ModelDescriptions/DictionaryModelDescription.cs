@@ -1,0 +1,6 @@
+namespace KennUTicket.Areas.HelpPage.ModelDescriptions
+{
+    public class DictionaryModelDescription : KeyValuePairModelDescription
+    {
+    }
+}

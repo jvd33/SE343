@@ -86,7 +86,7 @@ namespace TicketDesk.Domain.Model
             }
         }
 
-        [Column(TypeName = "timestamp")]
+        [Column(TypeName = "binary")]
         [MaxLength(8)]
         [Timestamp]
         public byte[] Version { get; set; }

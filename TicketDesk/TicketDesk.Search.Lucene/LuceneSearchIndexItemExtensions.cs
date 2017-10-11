@@ -57,7 +57,7 @@ namespace TicketDesk.Search.Lucene
                 Field.TermVector.NO);
             var lastupdatedate = new Field(
                 "status",
-                DateTools.DateToString(item.LastUpdateDate.DateTime, DateTools.Resolution.SECOND),
+                DateTools.DateToString(item.LastUpdateDate, DateTools.Resolution.SECOND),
                 Field.Store.YES,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO
