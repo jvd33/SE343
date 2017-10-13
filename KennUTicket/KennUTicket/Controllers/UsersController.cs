@@ -13,12 +13,14 @@ namespace KennUTicket.Controllers
 {
     public class UsersController : Controller
     {
-        private TicketContext db = new TicketContext();
 
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            using (var db = new TicketContext())
+            {
+                return View(db.Users.ToList());
+            }
         }
 
         // GET: Users/Details/5
@@ -28,12 +30,15 @@ namespace KennUTicket.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            return View(user);
         }
 
         // GET: Users/Create
@@ -49,11 +54,14 @@ namespace KennUTicket.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Username,Email,HashedPassword")] User user)
         {
-            if (ModelState.IsValid)
+            using (var db = new TicketContext())
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(user);
@@ -66,12 +74,15 @@ namespace KennUTicket.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            return View(user);
         }
 
         // POST: Users/Edit/5
@@ -81,11 +92,14 @@ namespace KennUTicket.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Username,Email,HashedPassword")] User user)
         {
-            if (ModelState.IsValid)
+            using (var db = new TicketContext())
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(user);
         }
@@ -97,12 +111,16 @@ namespace KennUTicket.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(user);
             }
-            return View(user);
         }
 
         // POST: Users/Delete/5
@@ -110,19 +128,13 @@ namespace KennUTicket.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            using (var db = new TicketContext())
             {
-                db.Dispose();
+                User user = db.Users.Find(id);
+                db.Users.Remove(user);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
         }
     }
 }

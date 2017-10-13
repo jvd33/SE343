@@ -7,17 +7,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KennUTicket.DAL;
+using KennUTicket.Models;
 
-namespace KennUTicket.Models
+namespace KennUTicket.Controllers
 {
     public class TicketsController : Controller
     {
-        private TicketContext db = new TicketContext();
 
         // GET: Tickets
         public ActionResult Index()
         {
-            return View(db.Tickets.ToList());
+
+            using (var db = new TicketContext())
+            {
+                return View(db.Tickets.ToList());
+            }
         }
 
         // GET: Tickets/Details/5
@@ -27,12 +31,15 @@ namespace KennUTicket.Models
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                Ticket ticket = db.Tickets.Find(id);
+                if (ticket == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ticket);
             }
-            return View(ticket);
         }
 
         // GET: Tickets/Create
@@ -48,11 +55,14 @@ namespace KennUTicket.Models
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Description,TicketType,Category,Title,Details,CreatedBy,AssignedTo,CreatedDate,LastUpdatedBy,LastUpdateDate,Priority")] Ticket ticket)
         {
-            if (ModelState.IsValid)
+            using (var db = new TicketContext())
             {
-                db.Tickets.Add(ticket);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Tickets.Add(ticket);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(ticket);
@@ -65,12 +75,15 @@ namespace KennUTicket.Models
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                Ticket ticket = db.Tickets.Find(id);
+                if (ticket == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ticket);
             }
-            return View(ticket);
         }
 
         // POST: Tickets/Edit/5
@@ -80,11 +93,14 @@ namespace KennUTicket.Models
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Description,TicketType,Category,Title,Details,CreatedBy,AssignedTo,CreatedDate,LastUpdatedBy,LastUpdateDate,Priority")] Ticket ticket)
         {
-            if (ModelState.IsValid)
+            using (var db = new TicketContext())
             {
-                db.Entry(ticket).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(ticket).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(ticket);
         }
@@ -96,12 +112,16 @@ namespace KennUTicket.Models
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
+            using (var db = new TicketContext())
             {
-                return HttpNotFound();
+                Ticket ticket = db.Tickets.Find(id);
+
+                if (ticket == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ticket);
             }
-            return View(ticket);
         }
 
         // POST: Tickets/Delete/5
@@ -109,19 +129,13 @@ namespace KennUTicket.Models
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Ticket ticket = db.Tickets.Find(id);
-            db.Tickets.Remove(ticket);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            using (var db = new TicketContext())
             {
-                db.Dispose();
+                Ticket ticket = db.Tickets.Find(id);
+                db.Tickets.Remove(ticket);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
         }
     }
 }
