@@ -1,5 +1,25 @@
 ﻿@model IEnumerable<KennUTicket.Models.Ticket>
+@using KennUTicket.Models
+@using KennUTicket.DAL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@functions { 
 
+            private string getUsername(string id)
+            {
+                var ctx = new TicketContext();
+                var userStore = new UserStore<User>(ctx);
+                var manager = new UserManager<User>(userStore);
+                var user = manager.FindById(id);
+                if (user != null) {
+                    return user.UserName;
+
+                } else
+                {
+                    return "";
+                }
+            }
+        }
 @{
     ViewBag.Title = "Index";
 }
@@ -15,16 +35,10 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TicketType)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Category)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Details)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreatedBy)
@@ -53,41 +67,51 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TicketType)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Category)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Details)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedTo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastUpdateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Priority)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+            @{
+            var cid = getUsername(item.CreatedByID);
+        }
+        @Html.DisplayFor(modelItem => cid)
+    </td>
+
+    <td>
+            @{
+            var aid = getUsername(item.AssignedToID);
+        }
+        @Html.DisplayFor(modelItem => aid)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedDate)
+    </td>
+
+    <td>
+            @{
+            var lid = getUsername(item.LastUpdatedByID);
+        }
+        @Html.DisplayFor(modelItem => lid)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.LastUpdateDate)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Priority)
+    </td>
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+    </td>
+
+</tr>
 }
 
 </table>

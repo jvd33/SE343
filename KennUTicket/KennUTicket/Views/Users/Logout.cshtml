@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@using Microsoft.Owin.Security
+@{ 
+
+    var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+    if (User.Identity.IsAuthenticated)
+    {
+        authenticationManager.SignOut();
+    }
+    Response.Redirect("/");
+}
+

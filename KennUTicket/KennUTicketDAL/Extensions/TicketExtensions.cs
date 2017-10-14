@@ -9,30 +9,36 @@ namespace KennUTicket.Extensions
 {
     public static class TicketExtensions
     {
-        public static List<String> GetUsers(this Ticket ticket)
+        private static List<String> ticketPriorities = new List<String>() { "Low", "Medium", "High" };
+        public static List<string> TicketPriorities { get => ticketPriorities; set => ticketPriorities = value; }
+
+        private static List<String> ticketCategories = new List<String>() { "Hardware", "Software", "Complaint", "Other" };
+        
+        public static List<String> GetCategories(this Ticket ticket)
+        {
+            return ticketCategories;
+        }
+
+        public static List<String> GetPriorities(this Ticket ticket)
+        {
+            return ticketPriorities;
+        }
+
+        public static List<User> GetUsers(this Ticket ticket)
         {
             List<String> users = new List<String>();
             using (var db = new TicketContext())
             {
-                foreach (User u in db.Users)
-                {
-                    users.Add(u.Username);
-                }
+                return db.Users.ToList();
             }
-            return users;
         }
 
-        public static List<String> GetStatusNames(this Ticket ticket)
+        public static List<TicketStatus> GetStatusNames(this Ticket ticket)
         {
-            List<String> statuses = new List<String>();
             using (var db = new TicketContext())
             {
-                foreach (TicketStatus t in db.TicketStatuses)
-                {
-                    statuses.Add(t.StatusName);
-                }
+                return db.TicketStatuses.ToList();
             }
-            return statuses;
         }
 
         public static Ticket UpdateTicketStatus(this Ticket ticket, TicketStatus status, User UpdatedBy=null) 
@@ -49,7 +55,6 @@ namespace KennUTicket.Extensions
                     Ticket = ticket,
                     Time = DateTime.Now
                 };
-                db.TicketEvents.Add(tevent);
                 db.SaveChanges();
             }
             return ticket;
@@ -66,28 +71,45 @@ namespace KennUTicket.Extensions
                     Ticket = ticket,
                     Time = DateTime.Now
                 };
-                db.TicketEvents.Add(tevent);
                 db.SaveChanges();
                 return ticket.UpdateTicketStatus(ts);
             }
         }
 
-        public static Ticket CreateTicket(this Ticket ticket)
+        public static Ticket CreateTicket(this Ticket ticket, string username)
         {
             TicketStatus ts;
             using (var db = new TicketContext())
             {
+                var u = db.Users.FirstOrDefault(c => c.UserName == username);
                 ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "New Ticket");
+                Ticket nTicket = new Ticket()
+                {
+                    Category = ticket.Category,
+                    Priority = ticket.Priority,
+                    CreatedDate = DateTime.Now,
+                    CustomerAddress = ticket.CustomerAddress,
+                    WearableNumber = ticket.WearableNumber,
+                    Title = ticket.Title,
+                    OrderNumber = ticket.OrderNumber,
+                    Description = ticket.Description,
+                    AssignedToID = ticket.AssignedToID,
+                    CreatedByID = u.Id,
+                    LastUpdatedByID = u.Id,
+                    LastUpdateDate = DateTime.Now,
+                    StatusID = ts.ID
+                };
+                db.Tickets.Add(nTicket);
+                db.SaveChanges();
                 var tevent = new TicketEvent()
                 {
                     EventName = "Ticket Created",
-                    Ticket = ticket,
+                    TicketID = nTicket.ID,
                     Time = DateTime.Now
                 };
-                ticket.Status = ts;
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
-                return ticket;
+                return nTicket;
             }
         }
 

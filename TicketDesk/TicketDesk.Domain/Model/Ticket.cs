@@ -140,7 +140,7 @@ namespace TicketDesk.Domain.Model
         [Display(ResourceType = typeof(Strings), Name = "TicketAffectsCustomer", ShortName = "TicketAffectsCustomerShort")]
         public bool AffectsCustomer { get; set; }
 
-        [Column(TypeName = "binary")]
+        [Column(TypeName = "binary0")]
         [MaxLength(8)]
         [Timestamp]
         public byte[] Version { get; set; }

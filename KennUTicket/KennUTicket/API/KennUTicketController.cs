@@ -33,10 +33,10 @@ namespace KennUTicket.API
             try
             {
 
-                return this.Ok();
+                return Ok();
             } catch(HttpResponseException ex)
             {
-                return this.NotFound();
+                return NotFound();
             }
         }
 
@@ -45,11 +45,11 @@ namespace KennUTicket.API
             try
             {
                 var ticket = GetTicket(TicketID);
-                return this.Ok();
+                return Ok();
 
             } catch(HttpResponseException ex)
             {
-                return this.NotFound();
+                return NotFound();
             }
         }
 

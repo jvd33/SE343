@@ -5,6 +5,8 @@ using System.Web;
 using System.Data.Entity;
 using KennUTicket.Models;
 using KennUTicket.Extensions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace KennUTicket.DAL
 {
@@ -16,7 +18,7 @@ namespace KennUTicket.DAL
             {
                 return;
             }
-            var SysUser = new User() { Username = "Admin", HashedPassword = "not yet implemented", Email = "jvd5839@rit.edu" };
+
             var statuses = new List<String>()
             {
                 "Product Received",
@@ -29,25 +31,10 @@ namespace KennUTicket.DAL
                 {
                     StatusName = x
                 };
+                context.TicketStatuses.Add(y);
             });
 
-
-            var TestTicket = new Ticket()
-            {
-                AssignedTo = SysUser,
-                Category = (int)TicketContext.TicketCategory.Hardware,
-                CreatedBy = SysUser,
-                CreatedDate = DateTime.Now,
-                Description = "This product is broken",
-                LastUpdateDate = DateTime.Now,
-                LastUpdatedBy = SysUser,
-                Priority = (int)TicketContext.TicketPriority.High,
-                CustomerAddress = "RIT",
-                OrderNumber = "Test Order Number",
-                Title = "Test Ticket NUMBER ONE!",
-                WearableNumber = "Test Wearable Number"
-            }.CreateTicket();
-
+            context.SaveChanges();
         }
     }
 }

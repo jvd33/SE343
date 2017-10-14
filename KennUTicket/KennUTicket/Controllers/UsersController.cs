@@ -13,76 +13,58 @@ namespace KennUTicket.Controllers
 {
     public class UsersController : Controller
     {
+        private TicketContext db = new TicketContext();
 
         // GET: Users
         public ActionResult Index()
         {
-            using (var db = new TicketContext())
-            {
-                return View(db.Users.ToList());
-            }
+            return View(db.Users.ToList());
         }
 
-        // GET: Users/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            using (var db = new TicketContext())
-            {
-                User user = db.Users.Find(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(user);
-            }
-        }
-
-        // GET: Users/Create
-        public ActionResult Create()
+        public ActionResult Login()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Username,Email,HashedPassword")] User user)
+        public ActionResult Register()
         {
-            using (var db = new TicketContext())
-            {
-                if (ModelState.IsValid)
-                {
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-            }
-
-            return View(user);
+            return View();
         }
 
-        // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Logout()
+        {
+            return View();
+        }
+
+
+        // GET: Users/Details/5
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            using (var db = new TicketContext())
+            User user = db.Users.Find(id);
+            if (user == null)
             {
-                User user = db.Users.Find(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(user);
+                return HttpNotFound();
             }
+            return View(user);
+        }
+
+        // GET: Users/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
         }
 
         // POST: Users/Edit/5
@@ -90,51 +72,50 @@ namespace KennUTicket.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Username,Email,HashedPassword")] User user)
+        public ActionResult Edit([Bind(Include = "Id,Email,UserName")] User user)
         {
-            using (var db = new TicketContext())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(user).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(user);
         }
 
         // GET: Users/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            using (var db = new TicketContext())
+            User user = db.Users.Find(id);
+            if (user == null)
             {
-                User user = db.Users.Find(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(user);
+                return HttpNotFound();
             }
+            return View(user);
         }
 
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            using (var db = new TicketContext())
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                User user = db.Users.Find(id);
-                db.Users.Remove(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.Dispose();
             }
+            base.Dispose(disposing);
         }
     }
 }

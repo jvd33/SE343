@@ -1,8 +1,19 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@functions {
+    private bool loggedIn = false;
+}
+@using KennUTicket.Models
+@using KennUTicket.DAL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@{
+    loggedIn = User.Identity.IsAuthenticated;
+}
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="google" content="notranslate" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -16,21 +27,75 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("KennUTicket", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-left">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+
+                    @if (loggedIn) {
+                    <li>@Html.ActionLink("Tickets", "Index", "Tickets", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Test Page", "Test", "Test", new {area = ""}, null)</li>
+                    }
                 </ul>
+            </div>
+            <div class="navbar-right">
+                @if (loggedIn)
+                {
+                <ul class="nav navbar-nav">
+                    <li style="padding-top:1.45rem;margin-right:.5rem;color:white;">Hello, @User.Identity.GetUserName()</li>
+                    <li>@Html.ActionLink("Account Settings", "AccountSettings", "Users")</li>
+                    <li>@Html.ActionLink("Log out", "Logout", "Users")</li>
+                </ul>
+                }
+                else
+                {
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Login", "Login", "Users")</li>
+                    <li>@Html.ActionLink("Register", "Register", "Users")</li>
+                </ul>
+                }
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" style="padding-top:50px;">
+        <ul class="breadcrumb">
+            @{ 
+                var url = Request.Url.AbsolutePath;
+                var urls = url.Split('/').ToList();
+                urls.RemoveAll(c => c == String.Empty);
+                string x;
+                if(urls.Count == 0)
+                {
+                    x = @"<li><span class=""active"">Home</span></li>";
+                } else
+                {
+                    x = @"<li><a href=""/"">Home</a></li>";
+                }
+                @Html.Raw(x);
+                for(int i = 0; i < urls.Count; i++)
+                {
+                    if (i == urls.Count-1)
+                    {
+                        x = String.Format(@"<li><span class=""active"">{0}</span></li>", urls[i]);
+                    } else
+                    {
+                        var link = "/";
+                        for (int j = 0; j < i-2; j++)
+                        {
+                            link += urls[j] + "/";
+                        }
+                        x = String.Format(@"<li><a href=""{0}"">{1}</a></li>", link, urls[i]);
+                    }
+                    @Html.Raw(x);
+                }
+            }
+        </ul>
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - KennUWare Corp.</p>
         </footer>
     </div>
 

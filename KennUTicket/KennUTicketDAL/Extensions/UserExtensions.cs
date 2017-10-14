@@ -13,7 +13,7 @@ namespace KennUTicket.Extensions
         {
             using (var db = new TicketContext())
             {
-                User sys = db.Users.FirstOrDefault(c => c.ID == 1);
+                User sys = (User)db.Users.FirstOrDefault(c => c.Id == "1");
                 return sys;
             }
         }

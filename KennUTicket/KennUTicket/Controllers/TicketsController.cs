@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using KennUTicket.DAL;
 using KennUTicket.Models;
+using KennUTicket.Extensions;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace KennUTicket.Controllers
 {
@@ -53,19 +56,21 @@ namespace KennUTicket.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Description,TicketType,Category,Title,Details,CreatedBy,AssignedTo,CreatedDate,LastUpdatedBy,LastUpdateDate,Priority")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "ID,Description,Category,Title,AssignedToID,Priority, WearableNumber, OrderNumber, CustomerAddress")] Ticket ticket)
         {
-            using (var db = new TicketContext())
+            var ctx = new TicketContext();
+            var userStore = new UserStore<User>(ctx);
+            var manager = new UserManager<User>(userStore);
+            var user = manager.FindByName(ticket.AssignedToID);
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Tickets.Add(ticket);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                return View();
             }
 
-            return View(ticket);
+            ticket.AssignedTo = user;
+            ticket.AssignedToID = user.Id;
+            ticket = ticket.CreateTicket(User.Identity.Name);
+            return RedirectToAction("Index");
         }
 
         // GET: Tickets/Edit/5
