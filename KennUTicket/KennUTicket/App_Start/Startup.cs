@@ -5,6 +5,7 @@ using Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(KennUTicket.App_Start.Startup))]
 namespace KennUTicket.App_Start
@@ -23,6 +24,7 @@ namespace KennUTicket.App_Start
             app.UseCookieAuthentication(authenticationOptions);
 
             app.SetDefaultSignInAsAuthenticationType("Application");
+
         }
     }
 }

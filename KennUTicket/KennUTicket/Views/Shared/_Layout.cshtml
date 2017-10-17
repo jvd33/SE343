@@ -36,7 +36,7 @@
                     @if (loggedIn) {
                     <li>@Html.ActionLink("Tickets", "Index", "Tickets", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("Users", "Index", "Users", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Test Page", "Test", "Test", new {area = ""}, null)</li>
+                    <li>@Html.ActionLink("Ticket Events", "Index", "TicketEvents")</li>
                     }
                 </ul>
             </div>
@@ -82,7 +82,7 @@
                     } else
                     {
                         var link = "/";
-                        for (int j = 0; j < i-2; j++)
+                        for (int j = 0; j < i+1; j++)
                         {
                             link += urls[j] + "/";
                         }

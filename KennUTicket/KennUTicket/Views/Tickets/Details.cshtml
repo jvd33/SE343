@@ -1,7 +1,27 @@
 ﻿@model KennUTicket.Models.Ticket
+@using KennUTicket.Models
+@using KennUTicket.DAL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@Scripts.Render("~/Scripts/KennUTicketAPI.js")
+@functions {
 
-@{
-    ViewBag.Title = "Details";
+    private string getUsername(string id)
+    {
+        var ctx = new TicketContext();
+        var userStore = new UserStore<User>(ctx);
+        var manager = new UserManager<User>(userStore);
+        var user = manager.FindById(id);
+        if (user != null)
+        {
+            return user.UserName;
+
+        }
+        else
+        {
+            return "";
+        }
+    }
 }
 
 <h2>Details</h2>
@@ -10,20 +30,21 @@
     <h4>Ticket</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType)
         </dd>
 
         <dt>
@@ -35,27 +56,14 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Details)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Details)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.CreatedBy)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
+            @{
+                var cid = getUsername(Model.CreatedByID);
+            }
+            @Html.DisplayFor(modelItem => cid)
         </dd>
 
         <dt>
@@ -63,7 +71,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AssignedTo)
+            @{
+                var aid = getUsername(Model.AssignedToID);
+            }
+            @Html.DisplayFor(modelItem => aid)
         </dd>
 
         <dt>
@@ -79,7 +90,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastUpdatedBy)
+            @{
+                var lid = getUsername(Model.LastUpdatedByID);
+            }
+            @Html.DisplayFor(modelItem => lid)
         </dd>
 
         <dt>
@@ -98,7 +112,37 @@
             @Html.DisplayFor(model => model.Priority)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.WearableNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WearableNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
     </dl>
+    <div class="form-group">
+
+        External Call Stubs
+        <div class="text-success" id="result"></div>
+        <div class="text-success" id="output"></div>
+        <div class="form-group">
+            <input type="button" value="Validate Order Number" onclick="validate_order(@Model.OrderNumber)" class="btn btn-default" />
+            <input type="button" value="Initiate Refund" onclick="refund_order(@Model.OrderNumber)" class="btn btn-default" />
+        </div>
+        Internal Functionality Stubs
+        <div class="text-success" id="internal1"></div>
+        <div class="text-success" id="internal2"></div>
+        <div class="form-group">
+            <input type="button" value="Confirm Refund Received" onclick="confirm_product_received(@Model.ID)" class="btn btn-default" />
+            <input type="button" value="Confirm Refund Complete" onclick="confirm_refund(@Model.ID)" class="btn btn-default" />
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

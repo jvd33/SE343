@@ -38,5 +38,11 @@ namespace KennUTicket.Models
         public DateTime CreatedDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public string Priority { get; set; }
+        public string ProductInfo { get; set; }
+
+        public override string ToString()
+        {
+            return this.Title + ": " + this.CreatedDate.ToString();
+        }
     }
 }

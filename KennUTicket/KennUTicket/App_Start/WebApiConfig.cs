@@ -13,10 +13,9 @@ namespace KennUTicket
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
-                name: "KennUTicketAPI",
-                routeTemplate: "api/{controller}/{id}",
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

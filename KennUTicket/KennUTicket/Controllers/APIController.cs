@@ -6,13 +6,14 @@ using System.Net.Http;
 using System.Web.Http;
 using KennUTicket.Models;
 using KennUTicket.DAL;
+using KennUTicket.Extensions;
 
 namespace KennUTicket.API
 {
-    public class KennUTicketController : ApiController
+    public class APIController : ApiController
     {
         private TicketContext db;
-        public KennUTicketController()
+        public APIController()
         { 
             db = new TicketContext();
         }
@@ -27,25 +28,29 @@ namespace KennUTicket.API
             return ticket;
         }
 
+        [HttpPost]
         public IHttpActionResult AcceptProductReceived(int TicketID)
         {
    
             try
             {
-
-                return Ok();
+                var ticket = GetTicket(TicketID);
+                ticket = ticket.InitiateRefundTicket();
+                return Ok(ticket.Status.StatusName);
             } catch(HttpResponseException ex)
             {
                 return NotFound();
             }
         }
 
+        [HttpPost]
         public IHttpActionResult ConfirmProductRefunded(int TicketID)
         {
             try
             {
                 var ticket = GetTicket(TicketID);
-                return Ok();
+                ticket = ticket.CompleteRefundTicket();
+                return Ok(ticket.Status.StatusName);
 
             } catch(HttpResponseException ex)
             {

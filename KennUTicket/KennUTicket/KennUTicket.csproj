@@ -182,14 +182,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\KennUTicketController.cs" />
-    <Compile Include="API\Test\TestIntegrationController.cs" />
+    <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\TestIntegrationController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TicketEventsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,21 +231,25 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Tickets\Create.cshtml" />
-    <Content Include="Views\Tickets\ViewTickets.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Test\Test.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Logout.cshtml" />
+    <Content Include="Views\TicketEvents\Create.cshtml" />
+    <Content Include="Views\TicketEvents\Delete.cshtml" />
+    <Content Include="Views\TicketEvents\Details.cshtml" />
+    <Content Include="Views\TicketEvents\Edit.cshtml" />
+    <Content Include="Views\TicketEvents\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="API\Test\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

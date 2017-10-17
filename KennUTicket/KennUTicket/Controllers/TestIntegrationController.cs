@@ -14,21 +14,21 @@ namespace KennUTicket.API
     public class TestIntegrationController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult ConfirmSerialNumber(string SerialNumber)
+        public IHttpActionResult GetOrder(string orderNumber)
         {
-            return this.Ok("Serial Number Confirmed");
+            return this.Ok("Order retrieved");
         }
 
         [HttpPost]
-        public IHttpActionResult AcceptRefundRequest(int TicketID)
+        public IHttpActionResult RefundOrder(string orderNumber)
         {
             return this.Ok("Refund request accepted!");
         }
 
         [HttpGet]
-        public IHttpActionResult GetProductInfo(string SKU)
+        public IHttpActionResult OrderRequest(string SKU, int quantity, string orderNumber)
         {
-            return this.Ok("Test Product Info");
+            return this.Ok("Order requested");
 
         }
 

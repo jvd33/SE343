@@ -10,8 +10,6 @@ namespace KennUTicket.Extensions
     public static class TicketExtensions
     {
         private static List<String> ticketPriorities = new List<String>() { "Low", "Medium", "High" };
-        public static List<string> TicketPriorities { get => ticketPriorities; set => ticketPriorities = value; }
-
         private static List<String> ticketCategories = new List<String>() { "Hardware", "Software", "Complaint", "Other" };
         
         public static List<String> GetCategories(this Ticket ticket)
@@ -56,8 +54,8 @@ namespace KennUTicket.Extensions
                     Time = DateTime.Now
                 };
                 db.SaveChanges();
+                return t;
             }
-            return ticket;
         }
 
         public static Ticket ProductReceived(this Ticket ticket)
@@ -110,6 +108,41 @@ namespace KennUTicket.Extensions
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
                 return nTicket;
+            }
+        }
+
+        public static Ticket InitiateRefundTicket(this Ticket ticket)
+        {
+            using (var db = new TicketContext())
+            {
+                var ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Refurbish in progress");
+                var tevent = new TicketEvent()
+                {
+                    EventName = "Refurbish initiated",
+                    Ticket = ticket,
+                    Time = DateTime.Now
+                };
+
+                db.TicketEvents.Add(tevent);
+                db.SaveChanges();
+                return ticket.UpdateTicketStatus(ts);
+            }
+        }
+
+        public static Ticket CompleteRefundTicket(this Ticket ticket)
+        {
+            using (var db = new TicketContext())
+            {
+                var ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Refurbish successful");
+                var tevent = new TicketEvent()
+                {
+                    EventName = "Refurbish complete",
+                    Ticket = ticket,
+                    Time = DateTime.Now
+                };
+                db.TicketEvents.Add(tevent);
+                db.SaveChanges();
+                return ticket.UpdateTicketStatus(ts);
             }
         }
 

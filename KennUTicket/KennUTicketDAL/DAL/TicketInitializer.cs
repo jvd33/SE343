@@ -23,6 +23,9 @@ namespace KennUTicket.DAL
             {
                 "Product Received",
                 "New Ticket",
+                "Refurbish successful",
+                "Refurbish in progress",
+                ""
             };
 
             statuses.ForEach(x =>
