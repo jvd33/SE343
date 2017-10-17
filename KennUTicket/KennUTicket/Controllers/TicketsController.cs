@@ -96,14 +96,19 @@ namespace KennUTicket.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Description,TicketType,Category,Title,Details,CreatedBy,CreatedDate,LastUpdatedBy,LastUpdateDate,Priority")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "ID,Description,Category,Title,Priority")] Ticket ticket)
         {
             using (var db = new TicketContext())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(ticket).State = EntityState.Modified;
+                    var t = db.Tickets.FirstOrDefault(c => c.ID == ticket.ID);
+                    t.Description = ticket.Description;
+                    t.Category = ticket.Category;
+                    t.Title = ticket.Title;
+                    t.Priority = ticket.Priority;
                     db.SaveChanges();
+                    t.UpdateTicketStatus("Ticket updated");
                     return RedirectToAction("Index");
                 }
             }

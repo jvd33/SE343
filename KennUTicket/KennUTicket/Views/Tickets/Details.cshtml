@@ -3,6 +3,7 @@
 @using KennUTicket.DAL
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.EntityFramework
+@using KennUTicket.Extensions
 @Scripts.Render("~/Scripts/KennUTicketAPI.js")
 @functions {
 
@@ -21,6 +22,11 @@
         {
             return "";
         }
+    }
+
+    private string GetStatus(int id, Ticket t)
+    {
+        return t.GetStatusNames().FirstOrDefault(c => c.ID == id).StatusName;
     }
 }
 
@@ -56,7 +62,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
+            @Html.DisplayName("Created By")
         </dt>
 
         <dd>
@@ -67,7 +73,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AssignedTo)
+            @Html.DisplayName("Assigned To")
         </dt>
 
         <dd>
@@ -78,7 +84,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            @Html.DisplayName("Created On")
         </dt>
 
         <dd>
@@ -86,7 +92,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastUpdatedBy)
+            @Html.DisplayName("Last Updated By")
         </dt>
 
         <dd>
@@ -97,7 +103,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastUpdateDate)
+            @Html.DisplayName("Last Updated On")
         </dt>
 
         <dd>
@@ -113,17 +119,26 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.WearableNumber)
+            @Html.DisplayName("Wearable Number")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.WearableNumber)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OrderNumber)
+            @Html.DisplayName("Order Number")
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
+        <dt>
+            @Html.DisplayName("Ticket Status")
+        </dt>
+        <dd>
+            @{ 
+                var status = GetStatus(Model.StatusID, Model);
+            }
+            @status
         </dd>
     </dl>
     <div class="form-group">
@@ -131,9 +146,11 @@
         External Call Stubs
         <div class="text-success" id="result"></div>
         <div class="text-success" id="output"></div>
+        <div class="text-success" id="productInfo"></div>
         <div class="form-group">
             <input type="button" value="Validate Order Number" onclick="validate_order(@Model.OrderNumber)" class="btn btn-default" />
             <input type="button" value="Initiate Refund" onclick="refund_order(@Model.OrderNumber)" class="btn btn-default" />
+            <input type="button" value="Get Order Info" onclick="get_order_info(@Model.OrderNumber)" class="btn btn-default" />
         </div>
         Internal Functionality Stubs
         <div class="text-success" id="internal1"></div>

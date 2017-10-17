@@ -25,10 +25,10 @@ namespace KennUTicket.API
             return this.Ok("Refund request accepted!");
         }
 
-        [HttpGet]
-        public IHttpActionResult OrderRequest(string SKU, int quantity, string orderNumber)
+        [HttpPost]
+        public IHttpActionResult OrderRequest(string orderNumber)
         {
-            return this.Ok("Order requested");
+            return this.Ok("Order information goes here");
 
         }
 

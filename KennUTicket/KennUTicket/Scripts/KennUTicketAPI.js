@@ -15,10 +15,11 @@ function refund_order(orderNum) {
     });
 }
 
-function get_order(productNum, orderNum) {
+function get_order_info(orderNum) {
 
-    $.post("/api/testintegration/orderrequest", { SKU: productNumber, quantity: 1, orderNumber: orderNum }, function (data) {
+    $.post("/api/testintegration/orderrequest?orderNumber="+orderNum, function (data) {
         console.log(data);
+        productInfo.innerHTML = data
     });
 }
 

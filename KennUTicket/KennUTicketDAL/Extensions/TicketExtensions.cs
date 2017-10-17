@@ -39,22 +39,18 @@ namespace KennUTicket.Extensions
             }
         }
 
-        public static Ticket UpdateTicketStatus(this Ticket ticket, TicketStatus status, User UpdatedBy=null) 
+        public static Ticket UpdateTicketStatus(this Ticket ticket, string status, User UpdatedBy=null) 
         {
             using (var db = new TicketContext())
             {
-                var t = db.Tickets.FirstOrDefault(c => c.ID == ticket.ID);
-                t.Status = status;
-                t.LastUpdateDate = DateTime.Now;
-                t.LastUpdatedBy = UpdatedBy;
-                var tevent = new TicketEvent()
-                {
-                    EventName = "Ticket Status Updated",
-                    Ticket = ticket,
-                    Time = DateTime.Now
-                };
+                var st = db.TicketStatuses.FirstOrDefault(c => c.StatusName == status);
+                ticket.Status = st;
+                ticket.StatusID = st.ID;
+                ticket.LastUpdateDate = DateTime.Now;
+                ticket.LastUpdatedBy = UpdatedBy;
+                db.Entry(ticket).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return t;
+                return ticket;
             }
         }
 
@@ -62,7 +58,6 @@ namespace KennUTicket.Extensions
         {
             using (var db = new TicketContext())
             {
-                var ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Product Received");
                 var tevent = new TicketEvent()
                 {
                     EventName = "Product Received",
@@ -70,7 +65,7 @@ namespace KennUTicket.Extensions
                     Time = DateTime.Now
                 };
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus(ts);
+                return ticket.UpdateTicketStatus("Product Received");
             }
         }
 
@@ -115,17 +110,16 @@ namespace KennUTicket.Extensions
         {
             using (var db = new TicketContext())
             {
-                var ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Refurbish in progress");
                 var tevent = new TicketEvent()
                 {
                     EventName = "Refurbish initiated",
-                    Ticket = ticket,
+                    TicketID = ticket.ID,
                     Time = DateTime.Now
                 };
 
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus(ts);
+                return ticket.UpdateTicketStatus("Refurbish in progress");
             }
         }
 
@@ -133,16 +127,15 @@ namespace KennUTicket.Extensions
         {
             using (var db = new TicketContext())
             {
-                var ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Refurbish successful");
                 var tevent = new TicketEvent()
                 {
                     EventName = "Refurbish complete",
-                    Ticket = ticket,
+                    TicketID = ticket.ID,
                     Time = DateTime.Now
                 };
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus(ts);
+                return ticket.UpdateTicketStatus("Refurbish successful");
             }
         }
 
