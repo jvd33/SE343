@@ -1,0 +1,117 @@
+﻿@model IEnumerable<KennUTicket.Models.Ticket>
+@using KennUTicket.Models
+@using KennUTicket.DAL
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@functions { 
+
+            private string getUsername(string id)
+            {
+                var ctx = new TicketContext();
+                var userStore = new UserStore<User>(ctx);
+                var manager = new UserManager<User>(userStore);
+                var user = manager.FindById(id);
+                if (user != null) {
+                    return user.UserName;
+
+                } else
+                {
+                    return "";
+                }
+            }
+        }
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastUpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastUpdateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Priority)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @{
+                var cid = getUsername(item.CreatedByID);
+            }
+            @Html.DisplayFor(modelItem => cid)
+        </td>
+
+    <td>
+            @{
+            var aid = getUsername(item.AssignedToID);
+        }
+        @Html.DisplayFor(modelItem => aid)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedDate)
+    </td>
+
+    <td>
+            @{
+            var lid = getUsername(item.LastUpdatedByID);
+        }
+        @Html.DisplayFor(modelItem => lid)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.LastUpdateDate)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Priority)
+    </td>
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+    </td>
+
+</tr>
+}
+
+</table>

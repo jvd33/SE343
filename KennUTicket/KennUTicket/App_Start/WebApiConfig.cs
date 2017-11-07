@@ -13,10 +13,21 @@ namespace KennUTicket
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{action}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+            config.EnableCors();
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "Test",
+                routeTemplate: "test/{action}",
+                defaults: new { controller = "TestIntegration", action = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "API",
+                routeTemplate: "api/{action}",
+                defaults: new { controller = "API", action = RouteParameter.Optional }
             );
         }
     }

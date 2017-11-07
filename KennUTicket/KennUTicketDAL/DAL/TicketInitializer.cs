@@ -18,6 +18,16 @@ namespace KennUTicket.DAL
             {
                 return;
             }
+            var userStore = new UserStore<User>(context);
+            var manager = new UserManager<User>(userStore);
+
+            var user = new User()
+            {
+                UserName = "admin",
+                Email = "jvd5839@rit.edu",
+            };
+
+            IdentityResult result = manager.Create(user, "password");
 
             var statuses = new List<String>()
             {
@@ -25,7 +35,7 @@ namespace KennUTicket.DAL
                 "New Ticket",
                 "Refurbish successful",
                 "Refurbish in progress",
-                "Ticket updated"
+                "Ticket updated",
             };
 
             statuses.ForEach(x =>

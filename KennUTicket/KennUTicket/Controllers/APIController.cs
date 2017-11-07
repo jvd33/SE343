@@ -7,9 +7,11 @@ using System.Web.Http;
 using KennUTicket.Models;
 using KennUTicket.DAL;
 using KennUTicket.Extensions;
+using System.Web.Http.Cors;
 
 namespace KennUTicket.API
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class APIController : ApiController
     {
         private TicketContext db;
@@ -28,7 +30,7 @@ namespace KennUTicket.API
             return ticket;
         }
 
-        [HttpPost]
+        [HttpGet]
         public IHttpActionResult AcceptProductReceived(int TicketID)
         {
    
@@ -36,21 +38,21 @@ namespace KennUTicket.API
             {
                 var ticket = GetTicket(TicketID);
                 ticket = ticket.InitiateRefundTicket();
-                return Ok(ticket.Status.StatusName);
+                return Ok("Product received, status updated: " + ticket.Status.StatusName);
             } catch(HttpResponseException ex)
             {
                 return NotFound();
             }
         }
 
-        [HttpPost]
-        public IHttpActionResult ConfirmProductRefunded(int TicketID)
+        [HttpGet]
+        public IHttpActionResult CompleteRefund(int TicketID)
         {
             try
             {
                 var ticket = GetTicket(TicketID);
                 ticket = ticket.CompleteRefundTicket();
-                return Ok(ticket.Status.StatusName);
+                return Ok("Refund completed, status updated: " + ticket.Status.StatusName);
 
             } catch(HttpResponseException ex)
             {

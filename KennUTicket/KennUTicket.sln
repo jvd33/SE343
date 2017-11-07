@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KennUTicketAPI", "KennUTick
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KennUTicketDAL", "KennUTicketDAL\KennUTicketDAL.csproj", "{94B00CC3-96E6-4955-B26F-D7C1A70F0D9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KennUTicket.Test", "Test\KennUTicket.Test.csproj", "{88FF8422-524A-4393-A50F-DD8905F1424D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{94B00CC3-96E6-4955-B26F-D7C1A70F0D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B00CC3-96E6-4955-B26F-D7C1A70F0D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94B00CC3-96E6-4955-B26F-D7C1A70F0D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88FF8422-524A-4393-A50F-DD8905F1424D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88FF8422-524A-4393-A50F-DD8905F1424D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88FF8422-524A-4393-A50F-DD8905F1424D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88FF8422-524A-4393-A50F-DD8905F1424D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

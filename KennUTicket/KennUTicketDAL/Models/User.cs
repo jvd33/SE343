@@ -9,6 +9,7 @@ namespace KennUTicket.Models
 {
     public class User : IdentityUser, IUser
     {
+
         public User() : base()
         {
 
