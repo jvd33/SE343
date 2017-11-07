@@ -11,7 +11,7 @@ using System.Configuration;
 using System.Web;
 using System.Collections.Specialized;
 
-namespace Test
+namespace KennUTicket.Test
 {
     [TestFixture]
     public class APITest
@@ -96,7 +96,7 @@ namespace Test
 
 
         [Test]
-        public async Task GetOrderInfoIsSuccess()
+        public async Task OrderRequestIsSuccess()
         {
             string queryString = String.Join("&",
                 ValidOrder.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(ValidOrder[a])));
@@ -113,6 +113,7 @@ namespace Test
         {
             string queryString = String.Join("&",
                 ValidAPI.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(ValidAPI[a])));
+            TestContext.Write(String.Format("{0}acceptproductreceived?{1}", queryString, APIClient.BaseAddress.ToString()));
             var response = APIClient.GetAsync(String.Format("acceptproductreceived?{0}", queryString)).Result;
             var res = await response.Content.ReadAsStringAsync();
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
@@ -163,11 +164,13 @@ namespace Test
 
 
         [Test]
-        public async Task GetOrderInfoIsNotFound()
+        public async Task OrderRequestIsNotFound()
         {
             string queryString = String.Join("&",
                 InvalidOrder.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(InvalidOrder[a])));
             var response = TestClient.GetAsync(String.Format("orderrequest?{0}", queryString)).Result;
+            TestContext.Write(String.Format("acceptproductreceived?{0}", queryString));
+
             var res = await response.Content.ReadAsStringAsync();
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
             await Task.Delay(0);
@@ -179,6 +182,8 @@ namespace Test
             string queryString = String.Join("&",
                 InvalidAPI.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(InvalidAPI[a])));
             var response = APIClient.GetAsync(String.Format("acceptproductreceived?{0}", queryString)).Result;
+            TestContext.Write(String.Format("acceptproductreceived?{0}", queryString));
+
             var res = await response.Content.ReadAsStringAsync();
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
             await Task.Delay(0);

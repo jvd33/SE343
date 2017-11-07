@@ -8,8 +8,8 @@
     <ProjectGuid>{88FF8422-524A-4393-A50F-DD8905F1424D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test</RootNamespace>
-    <AssemblyName>Test</AssemblyName>
+    <RootNamespace>KennUTicket.Test</RootNamespace>
+    <AssemblyName>KennUTicket.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -56,20 +56,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KennUTicketAPI\KennUTicketAPI.csproj">
-      <Project>{774de5fe-c7da-47fe-bebd-e29c04e4ce50}</Project>
-      <Name>KennUTicketAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KennUTicketDAL\KennUTicketDAL.csproj">
-      <Project>{94b00cc3-96e6-4955-b26f-d7c1a70f0d9b}</Project>
-      <Name>KennUTicketDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KennUTicket\KennUTicket.csproj">
-      <Project>{d6394316-e854-4286-9c63-290e9e422288}</Project>
-      <Name>KennUTicket</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

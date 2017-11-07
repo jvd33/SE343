@@ -82,7 +82,7 @@ namespace KennUTicket.Extensions
                     Priority = ticket.Priority,
                     CreatedDate = DateTime.Now,
                     CustomerAddress = ticket.CustomerAddress,
-                    WearableNumber = ticket.WearableNumber,
+                    ProductID = ticket.ProductID,
                     Title = ticket.Title,
                     OrderNumber = ticket.OrderNumber,
                     Description = ticket.Description,

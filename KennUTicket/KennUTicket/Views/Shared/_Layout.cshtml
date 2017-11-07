@@ -35,8 +35,9 @@
 
                     @if (loggedIn) {
                     <li>@Html.ActionLink("Tickets", "Index", "Tickets", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("New Ticket", "Create", "Tickets", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("Ticket Events", "Index", "TicketEvents")</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users", new { area = "" }, null)</li>
                     }
                 </ul>
             </div>

@@ -56,7 +56,7 @@ namespace KennUTicket.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Description,Category,Title,AssignedToID,Priority, WearableNumber, OrderNumber, CustomerAddress")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "ID,Description,Category,Title,AssignedToID,Priority, ProductID, OrderNumber, CustomerAddress")] Ticket ticket)
         {
             var ctx = new TicketContext();
             var userStore = new UserStore<User>(ctx);

@@ -125,3 +125,13 @@ C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\obj\Release\K
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\System.Web.Cors.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\System.Web.Http.Cors.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\System.Web.Http.Cors.xml
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\NUnit3.TestAdapter.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\nunit.engine.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\nunit.engine.api.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\Mono.Cecil.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\Mono.Cecil.Pdb.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\Mono.Cecil.Mdb.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\Mono.Cecil.Rocks.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\KennUTicket.Test.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\KennUTicket.Test.pdb
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicket\bin\KennUTicket.Test.dll.config

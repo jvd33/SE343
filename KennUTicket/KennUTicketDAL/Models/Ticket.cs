@@ -15,7 +15,7 @@ namespace KennUTicket.Models
         public string Description { get; set; }
         public string Category { get; set; }
         public string Title { get; set; }
-        public string WearableNumber { get; set; }
+        public string ProductID { get; set; }
         public string CustomerAddress { get; set; }
         public string OrderNumber { get; set; }
 
