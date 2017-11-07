@@ -15,18 +15,17 @@
     loggedIn = User.Identity.IsAuthenticated;
 
 }
-<div class="jumbotron">
+<div class="jumbotron" style="text-align:center">
     <h1>Welcome to KennUTicket!</h1>
     <p>KennUWare's Premiere Customer Support Ticketing System</p>
-    <div class="row">
+    <div class="row text-center">
         @if (loggedIn)
         {
             <span>Welcome, @User.Identity.GetUserName()</span>
         }
         else
         {
-        <a href="/Users/Login" class="btn btn-primary btn-lg">Login</a>
-        <a href="/Users/Register" class="btn btn-primary btn-lg">Register</a>
+        <a href="/Users/Login" class="btn btn-primary btn-lg" style="text-align:center">Login</a>
         }
     </div>
 
