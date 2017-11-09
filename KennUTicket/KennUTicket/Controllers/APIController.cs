@@ -32,7 +32,7 @@ namespace KennUTicket.API
 
         private Ticket GetTicketBySKU(string SKU)
         {
-            Ticket ticket = db.Tickets.FirstOrDefault(c => c.ProductID == SKU);
+            Ticket ticket = db.Tickets.First();//OrDefault(c => c.ProductID == SKU);
             if (ticket == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);

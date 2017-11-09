@@ -25,6 +25,7 @@ namespace KennUTicket.Test
         private NameValueCollection InvalidAPI;
         private NameValueCollection ValidOrder;
         private NameValueCollection InvalidOrder;
+        private NameValueCollection payload;
 
         private List<String> endpoints = new List<String> { "/test/", "/api/" };
 
@@ -63,6 +64,9 @@ namespace KennUTicket.Test
                 { "product_Id", null },
                 { "quantity", null },
                 { "t", null }
+             };
+            payload = new NameValueCollection() {
+                { "productID", "TestSKU" },
              };
         }
 
@@ -112,10 +116,11 @@ namespace KennUTicket.Test
         public async Task AcceptProductReceivedIsSuccess()
         {
             string queryString = String.Join("&",
-                ValidAPI.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(ValidAPI[a])));
-            TestContext.Write(String.Format("{0}acceptproductreceived?{1}", queryString, APIClient.BaseAddress.ToString()));
+                payload.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(payload[a])));
+            TestContext.Write(String.Format("{0}acceptproductreceived?{1}", APIClient.BaseAddress.ToString(), queryString));
             var response = APIClient.GetAsync(String.Format("acceptproductreceived?{0}", queryString)).Result;
             var res = await response.Content.ReadAsStringAsync();
+            TestContext.Write(res);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             TestContext.Write(res);
             Assert.AreEqual(res, "\"Product received, status updated: Refurbish in progress\"");
