@@ -24,7 +24,7 @@ function get_order_info(product_id, quant, t) {
 
 //INTERNAL, WE WONT CALL THESE
 function confirm_product_received(id) {
-    $.get("/api/acceptproductreceived", { ticketID: id }, function (data) {
+    $.get("/api/acceptproductreceived", { productId: id }, function (data) {
         console.log(data);
         internal1.innerHTML = "Product Received. Ticket status updated to: " + data
     });

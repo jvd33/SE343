@@ -30,13 +30,23 @@ namespace KennUTicket.API
             return ticket;
         }
 
+        private Ticket GetTicketBySKU(string SKU)
+        {
+            Ticket ticket = db.Tickets.FirstOrDefault(c => c.ProductID == SKU);
+            if (ticket == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return ticket;
+        }
+
         [HttpGet]
-        public IHttpActionResult AcceptProductReceived(int TicketID)
+        public IHttpActionResult AcceptProductReceived(string ProductID)
         {
    
             try
             {
-                var ticket = GetTicket(TicketID);
+                var ticket = GetTicketBySKU(ProductID);
                 ticket = ticket.InitiateRefundTicket();
                 return Ok("Product received, status updated: " + ticket.Status.StatusName);
             } catch(HttpResponseException ex)
