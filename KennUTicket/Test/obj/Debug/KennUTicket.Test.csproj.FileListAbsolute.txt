@@ -12,7 +12,7 @@ C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Debug\Newtonsoft
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Debug\nunit.framework.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Debug\nunit.framework.xml
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Debug\KennUTicket.Test.csprojResolveAssemblyReference.cache
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Debug\KennUTicket.Test.csproj.CoreCompileInputs.cache
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Debug\KennUTicket.Test.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Debug\KennUTicket.Test.pdb
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Debug\KennUTicket.Test.csprojResolveAssemblyReference.cache

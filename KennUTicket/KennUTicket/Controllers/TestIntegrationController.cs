@@ -23,7 +23,7 @@ namespace KennUTicket.API
         }
 
         [HttpGet]
-        public IHttpActionResult Refund(string orderNumber)
+        public IHttpActionResult Refund(string reason, double amount, int requestingSilo)
         {
             return this.Ok("Refund request confirmed");
         }

@@ -31,11 +31,12 @@ namespace KennUTicket.DAL
 
             var statuses = new List<String>()
             {
-                "Product Received",
-                "New Ticket",
-                "Refurbish successful",
-                "Refurbish in progress",
-                "Ticket updated",
+                "Active - Product Received",
+                "Active - New",
+                "Closed - Refurbish Successful",
+                "Active - Refurbish in progress",
+                "Active - Updated",
+                "Closed"
             };
 
             statuses.ForEach(x =>

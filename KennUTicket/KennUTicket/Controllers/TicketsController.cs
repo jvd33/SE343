@@ -11,6 +11,7 @@ using KennUTicket.Models;
 using KennUTicket.Extensions;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace KennUTicket.Controllers
 {
@@ -18,12 +19,72 @@ namespace KennUTicket.Controllers
     {
 
         // GET: Tickets
+
         public ActionResult Index()
         {
+            ViewBag.SearchOptions = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "Category", Value = "Category" },
+                new SelectListItem() { Text = "Order Number", Value = "OrderNumber" },
+                new SelectListItem() { Text = "Status", Value = "StatusName" },
+                new SelectListItem() { Text = "Created By", Value = "CreatedByName" },
+                new SelectListItem() { Text = "Assigned To", Value = "AssignedToName" },
+                new SelectListItem() { Text = "Priority", Value = "Priority" },
+            };
+            System.Web.HttpContext.Current.Session["searchProp"] = "";
+            System.Web.HttpContext.Current.Session["searchField"] = "";
+            using (var db = new TicketContext())
+            {
+                var tickets = db.Tickets.Where(c => !c.Status.StatusName.Contains("Closed")).ToList();
+                return View(tickets);
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Index(TicketSearchModel searchModel, TicketSearchModel filterModel)
+        {
+            ViewBag.SearchOptions = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "Category", Value = "Category" },
+                new SelectListItem() { Text = "Order Number", Value = "OrderNumber" },
+                new SelectListItem() { Text = "Status", Value = "StatusName" },
+                new SelectListItem() { Text = "Created By", Value = "CreatedByName" },
+                new SelectListItem() { Text = "Assigned To", Value = "AssignedToName" },
+                new SelectListItem() { Text = "Priority", Value = "Priority" },
+            };
 
             using (var db = new TicketContext())
             {
-                return View(db.Tickets.ToList());
+                var tickets = await db.Tickets.ToListAsync();
+                if (searchModel.Strategy != null)
+                {
+                    System.Web.HttpContext.Current.Session["searchProp"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).GetValue(searchModel, null);
+                    System.Web.HttpContext.Current.Session["searchField"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).Name;
+                    searchModel = searchModel.ResolveRef();
+                    var searchType = searchModel.GetSearchValue();
+                    var searchField = searchModel.GetType().GetProperty(searchType).Name;
+                    var searchVal = searchModel.GetType().GetProperty(searchType).GetValue(searchModel, null);
+                    if (searchModel.Strategy == "search")
+                    {
+                        tickets = tickets.Where(c => c.GetType().GetProperty(searchType).GetValue(c, null).ToString() == searchVal.ToString()).ToList();
+                    }
+                    if (filterModel.Strategy != null)
+                    {
+                        switch (filterModel.Strategy)
+                        {
+                            case "filter_asc":
+                                tickets = tickets.OrderBy(c => c.GetType().GetProperty(searchType)).ToList();
+                                break;
+                            case "filter_desc":
+                                tickets = tickets.OrderByDescending(c => c.GetType().GetProperty(searchType)).ToList();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                return View(tickets);
             }
         }
 
@@ -91,6 +152,19 @@ namespace KennUTicket.Controllers
             }
         }
 
+        public ActionResult Close(int? id)
+        {
+            if(id != null)
+            {
+                using (var db = new TicketContext())
+                {
+                    Ticket ticket = db.Tickets.Find(id);
+                    ticket.CloseTicket();
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -108,7 +182,7 @@ namespace KennUTicket.Controllers
                     t.Title = ticket.Title;
                     t.Priority = ticket.Priority;
                     db.SaveChanges();
-                    t.UpdateTicketStatus("Ticket updated");
+                    t.UpdateTicketStatus("Active - Updated");
                     return RedirectToAction("Index");
                 }
             }

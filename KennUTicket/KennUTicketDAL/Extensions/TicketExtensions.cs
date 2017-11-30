@@ -54,6 +54,21 @@ namespace KennUTicket.Extensions
             }
         }
 
+        public static Ticket CloseTicket(this Ticket ticket)
+        {
+            using (var db = new TicketContext())
+            {
+                var tevent = new TicketEvent()
+                {
+                    EventName = "Ticket Closed",
+                    Ticket = ticket,
+                    Time = DateTime.Now
+                };
+                db.SaveChanges();
+                return ticket.UpdateTicketStatus("Closed");
+            }
+        }
+
         public static Ticket ProductReceived(this Ticket ticket)
         {
             using (var db = new TicketContext())
@@ -65,7 +80,7 @@ namespace KennUTicket.Extensions
                     Time = DateTime.Now
                 };
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus("Product Received");
+                return ticket.UpdateTicketStatus("Active - Product Received");
             }
         }
 
@@ -75,7 +90,7 @@ namespace KennUTicket.Extensions
             using (var db = new TicketContext())
             {
                 var u = db.Users.FirstOrDefault(c => c.UserName == username);
-                ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "New Ticket");
+                ts = db.TicketStatuses.FirstOrDefault(c => c.StatusName == "Active - New");
                 Ticket nTicket = new Ticket()
                 {
                     Category = ticket.Category,
@@ -119,7 +134,7 @@ namespace KennUTicket.Extensions
 
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus("Refurbish in progress");
+                return ticket.UpdateTicketStatus("Active - Refurbish in progress");
             }
         }
 
@@ -135,7 +150,7 @@ namespace KennUTicket.Extensions
                 };
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
-                return ticket.UpdateTicketStatus("Refurbish successful");
+                return ticket.UpdateTicketStatus("Closed - Refurbish Successful");
             }
         }
 

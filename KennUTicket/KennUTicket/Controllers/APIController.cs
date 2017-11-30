@@ -23,35 +23,31 @@ namespace KennUTicket.API
         private Ticket GetTicket(int TicketID)
         {
             Ticket ticket = db.Tickets.FirstOrDefault(c => c.ID == TicketID);
-            if (ticket == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
             return ticket;
         }
 
         private Ticket GetTicketBySKU(string SKU)
         {
-            Ticket ticket = db.Tickets.First();//OrDefault(c => c.ProductID == SKU);
-            if (ticket == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            Ticket ticket = db.Tickets.FirstOrDefault(c => c.ProductID == SKU);
             return ticket;
         }
 
         [HttpGet]
-        public IHttpActionResult AcceptProductReceived(string ProductID)
+        public IHttpActionResult AcceptProductReceived(int TicketID)
         {
    
             try
             {
-                var ticket = GetTicketBySKU(ProductID);
+                var ticket = GetTicket(TicketID);
+                if(ticket == null)
+                {
+                    return NotFound();
+                }
                 ticket = ticket.InitiateRefundTicket();
-                return Ok("Product received, status updated: " + ticket.Status.StatusName);
+                return Ok(new { ID = ticket.ID, status = ticket.Status.StatusName, SKU = ticket.ProductID, orderNumber = ticket.OrderNumber, title = ticket.Title });
             } catch(HttpResponseException ex)
             {
-                return NotFound();
+                return InternalServerError(ex);
             }
         }
 
@@ -61,12 +57,16 @@ namespace KennUTicket.API
             try
             {
                 var ticket = GetTicket(TicketID);
+                if (ticket == null)
+                {
+                    return NotFound();
+                }
                 ticket = ticket.CompleteRefundTicket();
-                return Ok("Refund completed, status updated: " + ticket.Status.StatusName);
-
-            } catch(HttpResponseException ex)
+                return Ok(new { ID = ticket.ID, status = ticket.Status.StatusName, SKU = ticket.ProductID, orderNumber = ticket.OrderNumber, title = ticket.Title });
+            }
+            catch (HttpResponseException ex)
             {
-                return NotFound();
+                return InternalServerError(ex);
             }
         }
 
