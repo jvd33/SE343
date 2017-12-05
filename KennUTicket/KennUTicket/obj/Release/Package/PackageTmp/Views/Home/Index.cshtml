@@ -12,21 +12,78 @@
 @using KennUTicket.DAL
 @using System.Web
 @{
+    if (IsPost)
+    {
+        if (Request.Cookies["SID"] != null)
+        {
+            var sid = Request.Cookies["SID"].Value;
+
+            var ctx = new TicketContext();
+            var userStore = new UserStore<User>(ctx);
+            var manager = new UserManager<User>(userStore);
+            var userName = Request.Cookies["username"].Value;
+
+            var user = manager.Find(userName, "tempPass1234567");
+
+            if (user != null)
+            {
+                var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+                var userIdentity = manager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, userIdentity);
+                Response.Redirect("/");
+            }
+            else
+            {
+                user = new User()
+                {
+                    UserName = userName,
+                    Email = "Test@test.com"
+                };
+                IdentityResult result = manager.Create(user, "tempPass1234567");
+                var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+                var userIdentity = manager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, userIdentity);
+                Response.Redirect("/");
+            }
+        }
+    }
     loggedIn = User.Identity.IsAuthenticated;
 
 }
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
+@Scripts.Render("~/Scripts/home.js")
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript">
+    var sid = Cookies.get('SID');
+    var user = Cookies.get('username');
+    if (sid && !user) {
+        var base = "https://cors-anywhere.herokuapp.com/http://hr.kennuware.com/api/v1/";
+        $.ajax({
+            url: base + "sessions/from-token/" + sid,
+            method: 'GET',
+            datatype: 'json',
+            success: function (result, status, xhr) {
+                Cookies.set('username', result.response.user.username);
+                Cookies.set('s', true);
+                var form = $('<form action="' + '/' + '" method="post">' +
+                    '<input type="text" name="api_url" value="' + '/' + '" />' +
+                    '</form>');
+                $('body').append(form);
+                form.submit();
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    }
+</script>
 <div class="jumbotron well" style="text-align:center">
     <h1>Welcome to KennUTicket!</h1>
     <p>KennUWare's Premiere Customer Support Ticketing System</p>
     <div class="row text-center">
-        @if (loggedIn)
-        {
-            <span>Welcome, @User.Identity.GetUserName()</span>
-        }
-        else
-        {
-        <a href="/Users/Login" class="btn btn-primary btn-lg" style="text-align:center">Login</a>
-        }
+        <div id="msg"></div>
+        <a href="http://hr.kennuware.com" class="btn btn-primary btn-lg" style="text-align:center" id="login">Login</a>
     </div>
+
 
 </div>

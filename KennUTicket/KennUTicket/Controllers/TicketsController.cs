@@ -42,7 +42,7 @@ namespace KennUTicket.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Index(TicketSearchModel searchModel, TicketSearchModel filterModel)
+        public async Task<ActionResult> Index(TicketSearchModel searchModel)
         {
             ViewBag.SearchOptions = new List<SelectListItem>
             {
@@ -59,28 +59,21 @@ namespace KennUTicket.Controllers
                 var tickets = await db.Tickets.ToListAsync();
                 if (searchModel.Strategy != null)
                 {
-                    System.Web.HttpContext.Current.Session["searchProp"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).GetValue(searchModel, null);
-                    System.Web.HttpContext.Current.Session["searchField"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).Name;
-                    searchModel = searchModel.ResolveRef();
-                    var searchType = searchModel.GetSearchValue();
-                    var searchField = searchModel.GetType().GetProperty(searchType).Name;
-                    var searchVal = searchModel.GetType().GetProperty(searchType).GetValue(searchModel, null);
-                    if (searchModel.Strategy == "search")
+                    if (searchModel.StatusName != null)
                     {
-                        tickets = tickets.Where(c => c.GetType().GetProperty(searchType).GetValue(c, null).ToString() == searchVal.ToString()).ToList();
+                        tickets = tickets.Where(c => c.Status.StatusName.Contains(searchModel.StatusName)).ToList();
                     }
-                    if (filterModel.Strategy != null)
+                    else
                     {
-                        switch (filterModel.Strategy)
+                        System.Web.HttpContext.Current.Session["searchProp"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).GetValue(searchModel, null);
+                        System.Web.HttpContext.Current.Session["searchField"] = searchModel.GetType().GetProperty(searchModel.GetSearchValue()).Name;
+                        searchModel = searchModel.ResolveRef();
+                        var searchType = searchModel.GetSearchValue();
+                        var searchField = searchModel.GetType().GetProperty(searchType).Name;
+                        var searchVal = searchModel.GetType().GetProperty(searchType).GetValue(searchModel, null);
+                        if (searchModel.Strategy == "search")
                         {
-                            case "filter_asc":
-                                tickets = tickets.OrderBy(c => c.GetType().GetProperty(searchType)).ToList();
-                                break;
-                            case "filter_desc":
-                                tickets = tickets.OrderByDescending(c => c.GetType().GetProperty(searchType)).ToList();
-                                break;
-                            default:
-                                break;
+                            tickets = tickets.Where(c => c.GetType().GetProperty(searchType).GetValue(c, null).ToString() == searchVal.ToString()).ToList();
                         }
                     }
                 }

@@ -3,18 +3,16 @@
 @{
     ViewBag.Title = "Create";
 }
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
 @Scripts.Render("~/Scripts/KennUTicketAPI.js")
-<h2>Create</h2>
+@Scripts.Render("~/Scripts/tickets.js")
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "ticketForm" }))
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Ticket</h4>
-        <hr />
-
+    <div class="row">
+    <div class="form-horizontal col-md-6">
+        <h2>Create</h2>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -26,30 +24,26 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Product ID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="text-success" id="result"></div>
+            @Html.Label("Order Number", htmlAttributes: new { @class = "control-label col-md-2",  })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.OrderNumber, new { htmlAttributes = new { @class = "form-control" }, @id="orderNumber", @onblur="validateOrder()"})
+                @Html.ValidationMessageFor(model => model.OrderNumber, "", new { @class = "text-danger", @id="orderErr" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Product ID (SKU)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="text-success" id="result"></div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderNumber, new { htmlAttributes = new { @class = "form-control" }, @id="orderNumber" })
-                @Html.ValidationMessageFor(model => model.OrderNumber, "", new { @class = "text-danger" })
-
-                <div class="form-group">
-                    <input type="button" value="Validate Order Number" onclick="validate_order(OrderNumber.value)" class="btn btn-default" />
-                </div>
+                @Html.TextBoxFor(model => model.ProductID, new { @class = "form-control .text-box .single-line" , id="productId", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Description, 10, 40, new { htmlAttributes = new { @class = "form-control text-area" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,14 +73,33 @@
         </div>
 
         <div class="form-group">
+            @Html.Label("Refund Required?", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBox("Refund Required", htmlAttributes: new { id="refund" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="button" onclick="onTicketCreate()" value="Create" class="btn btn-default" id="Create"/>
             </div>
         </div>
     </div>
+    <div id="script" class="col-md-6">
+        <h2>
+            Call Script:
+        </h2>
+        <div>
+            @foreach(var line in @Model.GetHelpText().Split('\n'))
+            {
+                <div>@line</div>
+                <br/>
+            }
+        </div>
+    </div>
+        </div>
+
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 

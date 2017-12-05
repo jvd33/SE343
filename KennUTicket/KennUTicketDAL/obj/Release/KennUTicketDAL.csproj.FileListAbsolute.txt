@@ -11,6 +11,7 @@ C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Releas
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Microsoft.Owin.Security.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Microsoft.Owin.Security.OAuth.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Newtonsoft.Json.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\nunit.framework.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Owin.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\EntityFramework.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\EntityFramework.SqlServer.xml
@@ -22,9 +23,7 @@ C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Releas
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Microsoft.Owin.Security.Cookies.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Microsoft.Owin.Security.OAuth.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\Newtonsoft.Json.xml
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\nunit.framework.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\obj\Release\KennUTicketDAL.csproj.CoreCompileInputs.cache
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\obj\Release\KennUTicketDAL.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\obj\Release\KennUTicketDAL.pdb
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\nunit.framework.dll
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\bin\Release\nunit.framework.xml
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\KennUTicketDAL\obj\Release\KennUTicketDAL.csprojResolveAssemblyReference.cache

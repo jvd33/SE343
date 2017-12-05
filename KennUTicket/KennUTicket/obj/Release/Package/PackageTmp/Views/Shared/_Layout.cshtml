@@ -5,8 +5,28 @@
 @using KennUTicket.DAL
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.EntityFramework
+@using Microsoft.Owin.Security
 @{
     loggedIn = User.Identity.IsAuthenticated;
+    if (Request.Cookies["s"] != null)
+    {
+        var ctx = new TicketContext();
+        var userStore = new UserStore<User>(ctx);
+        var manager = new UserManager<User>(userStore);
+        var userName = Request["Username"] ?? "";
+        var password = Request["Password"] ?? "";
+
+        var user = manager.Find(userName, password);
+
+        if (user != null)
+        {
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            var userIdentity = manager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+            authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, userIdentity);
+        }
+    }
+    loggedIn = User.Identity.IsAuthenticated;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -45,53 +65,24 @@
                 @if (loggedIn)
                 {
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Settings", "Global", "Settings", new { area = "" }, null)</li>
+
                     <li style="padding-top:1.45rem;margin-right:.5rem;color:white;">Hello, @User.Identity.GetUserName()</li>
-                    <li>@Html.ActionLink("Account Settings", "AccountSettings", "Users")</li>
-                    <li>@Html.ActionLink("Log out", "Logout", "Users")</li>
+                    <li><a href="http://hr.kennuware.com/auth/sign-out" id="global_logout">Logout</a></li>
                 </ul>
                 }
                 else
                 {
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Login", "Login", "Users")</li>
+                    <li>@Html.ActionLink("Settings", "Global", "Settings", new { area = "" }, null)</li>
+
+                    <li><a href="http://hr.kennuware.com" id="global_login">Login</a></li>
                 </ul>
                 }
             </div>
         </div>
     </div>
     <div class="container body-content" style="padding-top:50px;">
-        <ul class="breadcrumb">
-            @{ 
-                var url = Request.Url.AbsolutePath;
-                var urls = url.Split('/').ToList();
-                urls.RemoveAll(c => c == String.Empty);
-                string x;
-                if(urls.Count == 0)
-                {
-                    x = @"<li><span class=""active"">Home</span></li>";
-                } else
-                {
-                    x = @"<li><a href=""/"">Home</a></li>";
-                }
-                @Html.Raw(x);
-                for(int i = 0; i < urls.Count; i++)
-                {
-                    if (i == urls.Count-1)
-                    {
-                        x = String.Format(@"<li><span class=""active"">{0}</span></li>", urls[i]);
-                    } else
-                    {
-                        var link = "/";
-                        for (int j = 0; j < i+1; j++)
-                        {
-                            link += urls[j] + "/";
-                        }
-                        x = String.Format(@"<li><a href=""{0}"">{1}</a></li>", link, urls[i]);
-                    }
-                    @Html.Raw(x);
-                }
-            }
-        </ul>
         @RenderBody()
         <hr />
         <footer>

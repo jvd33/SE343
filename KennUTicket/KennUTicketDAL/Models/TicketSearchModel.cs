@@ -50,8 +50,12 @@ namespace KennUTicket.Models
                         tsm.CreatedByName = null;
                         break;
                     case "StatusName":
-                        tsm.StatusID = db.TicketStatuses.FirstOrDefault(c => c.StatusName.Contains(tsm.StatusName)).ID; ;
-                        tsm.StatusName = null;
+                        var stat = db.TicketStatuses.FirstOrDefault(c => c.StatusName.Contains(tsm.StatusName));
+                        if (stat != null)
+                        {
+                            tsm.StatusID = stat.ID;
+                            tsm.StatusName = null;
+                        }
                         break;
                     case "AssignedToName":
                         tsm.AssignedToID = db.Users.FirstOrDefault(c => c.UserName == tsm.AssignedToName).Id;

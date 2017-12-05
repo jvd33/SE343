@@ -25,5 +25,7 @@ namespace KennUTicket.DAL
             modelBuilder.Entity<User>().HasKey(e => e.Id);
             base.OnModelCreating(modelBuilder);
         }
+
+        public System.Data.Entity.DbSet<KennUTicket.Models.Script> Scripts { get; set; }
     }
 }

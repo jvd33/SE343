@@ -119,7 +119,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Wearable Number")
+            @Html.DisplayName("Product ID")
         </dt>
 
         <dd>
@@ -141,25 +141,12 @@
             @status
         </dd>
     </dl>
-    <div class="form-group">
-
-        External Call Stubs
-        <div class="text-success" id="result"></div>
-        <div class="text-success" id="output"></div>
-        <div class="text-success" id="productInfo"></div>
-        <div class="form-group">
-            <input type="button" value="Validate Order Number" onclick="validate_order('@Model.OrderNumber')" class="btn btn-default" />
-            <input type="button" value="Initiate Refund" onclick="refund_order('@Model.OrderNumber', 5, @Model.ID)" class="btn btn-default" />
-            <input type="button" value="Get Order Info" onclick="get_order_info('@Model.OrderNumber', 2, 'refund')" class="btn btn-default" />
-        </div>
-        Internal Functionality Stubs
-        <div class="text-success" id="internal1"></div>
-        <div class="text-success" id="internal2"></div>
-        <div class="form-group">
-            <input type="button" value="Confirm Refund Received" onclick="confirm_product_received(@Model.ID)" class="btn btn-default" />
-            <input type="button" value="Confirm Refund Complete" onclick="confirm_refund(@Model.ID)" class="btn btn-default" />
-        </div>
-    </div>
+</div>
+<div id="statuses">
+    @foreach (var item in Model.GetHistory())
+    {
+        <div>@item.Key - @item.Value</div>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

@@ -81,6 +81,7 @@
     <Compile Include="DAL\TicketInitializer.cs" />
     <Compile Include="Extensions\TicketExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
+    <Compile Include="Models\Script.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketEvent.cs" />
     <Compile Include="Models\TicketSearchModel.cs" />

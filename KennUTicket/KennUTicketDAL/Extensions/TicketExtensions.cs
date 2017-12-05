@@ -61,9 +61,10 @@ namespace KennUTicket.Extensions
                 var tevent = new TicketEvent()
                 {
                     EventName = "Ticket Closed",
-                    Ticket = ticket,
+                    TicketID = ticket.ID,
                     Time = DateTime.Now
                 };
+                db.TicketEvents.Add(tevent);
                 db.SaveChanges();
                 return ticket.UpdateTicketStatus("Closed");
             }
@@ -76,9 +77,10 @@ namespace KennUTicket.Extensions
                 var tevent = new TicketEvent()
                 {
                     EventName = "Product Received",
-                    Ticket = ticket,
+                    TicketID = ticket.ID,
                     Time = DateTime.Now
                 };
+                db.TicketEvents.Add(tevent);
                 db.SaveChanges();
                 return ticket.UpdateTicketStatus("Active - Product Received");
             }
@@ -151,6 +153,31 @@ namespace KennUTicket.Extensions
                 db.TicketEvents.Add(tevent);
                 db.SaveChanges();
                 return ticket.UpdateTicketStatus("Closed - Refurbish Successful");
+            }
+        }
+
+        public static Dictionary<String, DateTime> GetHistory(this Ticket ticket)
+        {
+
+            var result = new Dictionary<String, DateTime>();
+            using (var db = new TicketContext())
+            {
+
+                var statuses = db.TicketEvents.Where(c => c.TicketID == ticket.ID).OrderByDescending(c => c.Time);
+                statuses.ToList().ForEach(x =>
+                {
+                    result.Add(x.EventName, x.Time);
+                });
+            }
+            return result;
+
+        }
+
+        public static string GetHelpText(this Ticket ticket)
+        {
+            using (var db = new TicketContext())
+            {
+                return db.Scripts.FirstOrDefault().ScriptText ?? "";
             }
         }
 

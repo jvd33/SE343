@@ -27,7 +27,7 @@ namespace KennUTicket.DAL
                 Email = "jvd5839@rit.edu",
             };
 
-            IdentityResult result = manager.Create(user, "password");
+            IdentityResult result = manager.Create(user, "tempPass1234567");
 
             var statuses = new List<String>()
             {

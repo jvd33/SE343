@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TestIntegrationController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -217,6 +218,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\KennUTicketAPI.js" />
@@ -255,6 +257,8 @@
     <Content Include="Views\TicketEvents\Details.cshtml" />
     <Content Include="Views\TicketEvents\Edit.cshtml" />
     <Content Include="Views\TicketEvents\Index.cshtml" />
+    <Content Include="Views\Settings\Global.cshtml" />
+    <Content Include="Views\Home\Tests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,3 @@
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.csprojResolveAssemblyReference.cache
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.csproj.CoreCompileInputs.cache
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.framework.dll
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\Newtonsoft.Json.dll
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.framework.xml
-C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\Newtonsoft.Json.xml
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\NUnit3.TestAdapter.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.engine.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.engine.api.dll
@@ -14,5 +8,11 @@ C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\Mono.Cec
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\KennUTicket.Test.dll.config
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\KennUTicket.Test.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\KennUTicket.Test.pdb
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\Newtonsoft.Json.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.framework.dll
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\Newtonsoft.Json.xml
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\bin\Release\nunit.framework.xml
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.csprojResolveAssemblyReference.cache
+C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.csproj.CoreCompileInputs.cache
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.dll
 C:\Users\Joe\Desktop\SE343\CustomerSupport\KennUTicket\Test\obj\Release\KennUTicket.Test.pdb

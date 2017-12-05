@@ -5,54 +5,93 @@
 @using Microsoft.AspNet.Identity.EntityFramework
 @functions { 
 
-            private string getUsername(string id)
-            {
-                var ctx = new TicketContext();
-                var userStore = new UserStore<User>(ctx);
-                var manager = new UserManager<User>(userStore);
-                var user = manager.FindById(id);
-                if (user != null) {
-                    return user.UserName;
+    private string getUsername(string id)
+    {
+        var ctx = new TicketContext();
+        var userStore = new UserStore<User>(ctx);
+        var manager = new UserManager<User>(userStore);
+        var user = manager.FindById(id);
+        if (user != null) {
+            return user.UserName;
 
-                } else
-                {
-                    return "";
-                }
-            }
+        } else
+        {
+            return "";
+        }
+    }
         }
 @{
     ViewBag.Title = "Index";
+
+    if (Session["searchField"] == null) { Session["searchField"] = "";  }
+    if (Session["searchProp"] == null) { Session["searchProp"] = "Category"; }
 }
-
-
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
+@Scripts.Render("~/Scripts/ticketIndex.js")
+<script type="text/javascript">
+    $(window).on("load", function () {
+        $('#searchBtn').on('click', filter);
+    });
+</script>
 <p>
     <a href="/Tickets/Create" class="btn btn-primary btn-lg" style="text-align:center">New Ticket</a>
 </p>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "searchForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.TextBox("Search", Session["searchProp"].ToString(), new { @class = "form-control .text-box .single-line", @id = "search" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @{ 
+                    var list = (List<SelectListItem>)ViewBag.SearchOptions;
+                    list.ForEach(x =>
+                    {
+                        if (x.Value.ToString() == Session["searchField"].ToString())
+                        {
+                            x.Selected = true;
+                        }
+                    });
+                    var selectList = new SelectList(list, "Value", "Text", "Select One");
+                }
+                @Html.DropDownList("Search Field", list, new { @class = "form-control", @id = "searchField"})
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <button class="btn btn-default btn-small" type="button" style="text-align:center" id="searchBtn">Search</button>
+            </div>
+        </div>
+    </div>
+
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Category)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayName("Assigned To")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedBy)
+            @Html.DisplayName("Created By")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AssignedTo)
+            @Html.DisplayName("Created On")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            @Html.DisplayName("Last Updated By")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastUpdatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastUpdateDate)
+            @Html.DisplayName("Last Updated On")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Priority)
@@ -63,26 +102,24 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Category)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @{
-                var cid = getUsername(item.CreatedByID);
-            }
-            @Html.DisplayFor(modelItem => cid)
-        </td>
 
     <td>
             @{
-            var aid = getUsername(item.AssignedToID);
+                var aid = getUsername(item.AssignedToID);
         }
         @Html.DisplayFor(modelItem => aid)
+    </td>
+
+    <td>
+        @{
+            var cid = getUsername(item.CreatedByID);
+        }
+        @Html.DisplayFor(modelItem => cid)
     </td>
 
     <td>
@@ -91,7 +128,7 @@
 
     <td>
             @{
-            var lid = getUsername(item.LastUpdatedByID);
+                var lid = getUsername(item.LastUpdatedByID);
         }
         @Html.DisplayFor(modelItem => lid)
     </td>
@@ -105,9 +142,9 @@
     </td>
 
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+        @Html.ActionLink("Close Ticket", "Close", new { id = item.ID })
     </td>
 
 </tr>

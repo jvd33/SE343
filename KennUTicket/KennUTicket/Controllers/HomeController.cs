@@ -15,5 +15,11 @@ namespace KennUTicket.Controllers
 
             return View();
         }
+
+        public ActionResult Tests()
+        {
+            ViewBag.Title = "KennUTicket Tests";
+            return View();
+        }
     }
 }
